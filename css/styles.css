@@ -706,38 +706,28 @@ a {
   overflow: hidden;
 }
 
+/* Fila sin superposición: cada frasco en su propia columna, alineados por
+   el navegador (align-items: flex-end) en vez de posiciones calculadas a
+   mano. Al no superponerse, la tapa de un frasco nunca puede "asomarse"
+   sobre otro, sin importar la forma o el tamaño de cada botella. */
 .pack-card__collage {
-  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4%;
   height: 200px;
+  padding: 0 6%;
   background: linear-gradient(160deg, var(--color-primary) 0%, #2c5536 100%);
   overflow: hidden;
 }
 
 .pack-card__collage-img {
-  position: absolute;
-  bottom: 12px;
-  width: 36%;
-  height: 82%;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 85%;
   object-fit: contain;
   object-position: bottom center;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
-}
-
-/* Grupo centrado como conjunto: 3 imágenes de 36% con 8% de margen a cada lado.
-   Sin rotación: así la base de los tres frascos queda exactamente en la misma línea. */
-.pack-card__collage-img--0 {
-  left: 8%;
-  z-index: 2;
-}
-
-.pack-card__collage-img--1 {
-  left: 32%;
-  z-index: 3;
-}
-
-.pack-card__collage-img--2 {
-  left: 56%;
-  z-index: 1;
 }
 
 

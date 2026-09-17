@@ -333,7 +333,7 @@ function renderPacks() {
       const descuentoMax = Math.round(Math.max(...m.tamaños.map((t) => PACK_DESCUENTOS[t.ml])) * 100);
       const tallas = m.tamaños.map((t) => `${t.ml}ml`).join(' · ');
       const collageHtml = m.imagenes
-        .map((src, i) => `<img src="${src}" alt="" class="pack-card__collage-img pack-card__collage-img--${i}" loading="lazy">`)
+        .map((src) => `<img src="${src}" alt="" class="pack-card__collage-img" loading="lazy">`)
         .join('');
       return `
         <article class="pack-card">
