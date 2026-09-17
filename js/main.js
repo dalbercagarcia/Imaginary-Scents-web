@@ -77,6 +77,7 @@ function crearTarjetaProducto(product, prefix = 'cat') {
     <img src="${product.imagen}" alt="${product.nombre} — ${product.marca}" class="product-card__img" loading="lazy">
     <div class="product-card__body">
       <span class="product-card__badge">${CATEGORIA_LABELS[product.categoria] ?? product.categoria}</span>
+      ${product.masVendido ? '<span class="product-card__vendido">Más vendido</span>' : ''}
       ${esRecienLlegado(product) ? '<span class="product-card__nuevo">Nuevo</span>' : ''}
       ${agotado ? '<span class="product-card__stock">Sin stock</span>' : ''}
       <h3 class="product-card__nombre">${product.nombre}</h3>
@@ -127,6 +128,14 @@ function renderRecienLlegados() {
   section.hidden = false;
   grid.innerHTML = '';
   lista.forEach((product) => grid.appendChild(crearTarjetaProducto(product, 'nuevo')));
+}
+
+function renderMasVendidos() {
+  const grid = document.getElementById('mas-vendidos-grid');
+  const lista = PRODUCTS.filter((p) => p.masVendido);
+
+  grid.innerHTML = '';
+  lista.forEach((product) => grid.appendChild(crearTarjetaProducto(product, 'vendido')));
 }
 
 function abrirNotas(productId) {
@@ -263,6 +272,7 @@ async function cargarCatalogo() {
     aplicarFiltros();
     renderPacks();
     renderRecienLlegados();
+    renderMasVendidos();
   } catch (err) {
     console.error('No se pudo cargar el catálogo:', err);
     document.getElementById('catalogo-grid').innerHTML =
@@ -283,6 +293,10 @@ function getMarcasPack() {
     porMarca[p.marca].push(p);
   });
 
+  // No es parte de la colección Blu Mediterraneo (frasco distinto):
+  // se excluye del colage visual de packs para que las fotos combinen entre sí.
+  const EXCLUIR_DEL_COLAGE = new Set(['acqua-il-profumo']);
+
   const marcas = [];
 
   Object.entries(porMarca).forEach(([marca, items]) => {
@@ -302,7 +316,8 @@ function getMarcasPack() {
       .sort((a, b) => a.ml - b.ml);
 
     if (tamaños.length > 0) {
-      marcas.push({ marca, imagen: items[0].imagen, tamaños });
+      const imagenes = [...new Set(items.filter((p) => !EXCLUIR_DEL_COLAGE.has(p.id)).map((p) => p.imagen))].slice(0, 3);
+      marcas.push({ marca, imagenes, tamaños });
     }
   });
 
@@ -317,9 +332,12 @@ function renderPacks() {
     .map((m) => {
       const descuentoMax = Math.round(Math.max(...m.tamaños.map((t) => PACK_DESCUENTOS[t.ml])) * 100);
       const tallas = m.tamaños.map((t) => `${t.ml}ml`).join(' · ');
+      const collageHtml = m.imagenes
+        .map((src, i) => `<img src="${src}" alt="" class="pack-card__collage-img pack-card__collage-img--${i}" loading="lazy">`)
+        .join('');
       return `
         <article class="pack-card">
-          <img src="${m.imagen}" alt="${m.marca}" class="pack-card__img" loading="lazy">
+          <div class="pack-card__collage">${collageHtml}</div>
           <div class="pack-card__body">
             <h3 class="pack-card__marca">${m.marca}</h3>
             <p class="pack-card__tallas">Disponible en: ${tallas}</p>
@@ -438,6 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBuscador();
   initGridEventos(document.getElementById('catalogo-grid'));
   initGridEventos(document.getElementById('recien-llegados-grid'));
+  initGridEventos(document.getElementById('mas-vendidos-grid'));
   initNotas();
   initPacks();
 });

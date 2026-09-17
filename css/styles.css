@@ -65,6 +65,12 @@ a {
   margin-left: 1.5rem;
 }
 
+@media (min-width: 900px) {
+  .announcement-bar__list {
+    justify-content: center;
+  }
+}
+
 /* Header */
 .site-header {
   background: var(--color-surface);
@@ -537,6 +543,19 @@ a {
   margin-top: 0.35rem;
 }
 
+.product-card__vendido {
+  align-self: flex-start;
+  background: var(--color-accent);
+  color: var(--color-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-top: 0.35rem;
+}
+
 .recien-llegados {
   padding: 1rem var(--spacing) 3rem;
   max-width: 1200px;
@@ -687,14 +706,40 @@ a {
   overflow: hidden;
 }
 
-.pack-card__img {
-  display: block;
-  width: 100%;
+.pack-card__collage {
+  position: relative;
   height: 200px;
-  object-fit: contain;
-  background: var(--color-bg);
-  padding: 1rem;
+  background: linear-gradient(160deg, var(--color-primary) 0%, #2c5536 100%);
+  overflow: hidden;
 }
+
+.pack-card__collage-img {
+  position: absolute;
+  bottom: 12px;
+  width: 36%;
+  height: 82%;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+}
+
+/* Grupo centrado como conjunto: 3 imágenes de 36% con 8% de margen a cada lado.
+   Sin rotación: así la base de los tres frascos queda exactamente en la misma línea. */
+.pack-card__collage-img--0 {
+  left: 8%;
+  z-index: 2;
+}
+
+.pack-card__collage-img--1 {
+  left: 32%;
+  z-index: 3;
+}
+
+.pack-card__collage-img--2 {
+  left: 56%;
+  z-index: 1;
+}
+
 
 .pack-card__body {
   display: flex;
@@ -887,6 +932,9 @@ a {
 
 .site-footer__logo img {
   border-radius: 50%;
+  background: var(--color-bg);
+  padding: 3px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
 }
 
 .site-footer__tagline {
