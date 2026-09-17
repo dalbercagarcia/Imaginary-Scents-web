@@ -337,7 +337,7 @@ function renderPacks() {
         .join('');
       return `
         <article class="pack-card">
-          <div class="pack-card__collage">${collageHtml}</div>
+          <div class="pack-card__collage"><div class="pack-card__collage-stage">${collageHtml}</div></div>
           <div class="pack-card__body">
             <h3 class="pack-card__marca">${m.marca}</h3>
             <p class="pack-card__tallas">Disponible en: ${tallas}</p>

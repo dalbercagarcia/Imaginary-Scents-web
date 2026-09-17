@@ -706,28 +706,36 @@ a {
   overflow: hidden;
 }
 
-/* Fila sin superposición: cada frasco en su propia columna, alineados por
-   el navegador (align-items: flex-end) en vez de posiciones calculadas a
-   mano. Al no superponerse, la tapa de un frasco nunca puede "asomarse"
-   sobre otro, sin importar la forma o el tamaño de cada botella. */
+/* Marco verde (identidad de marca) alrededor de un "escenario" claro para
+   las fotos. Las fotos de frascos son PNG transparentes con cuellos muy
+   angostos (ej. la tapa de dos puntas de Cedrus Blanc); contra un fondo
+   oscuro y saturado, ese espacio transparente alrededor del cuello se ve
+   como un hueco. Sobre un fondo claro —el mismo que usa el catálogo, donde
+   nunca pasa esto— el problema desaparece de raíz, para cualquier frasco. */
 .pack-card__collage {
+  height: 200px;
+  padding: 14px;
+  background: var(--color-primary);
+}
+
+.pack-card__collage-stage {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   gap: 4%;
-  height: 200px;
-  padding: 0 6%;
-  background: linear-gradient(160deg, var(--color-primary) 0%, #2c5536 100%);
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fdfbf6 0%, #f1ece1 100%);
   overflow: hidden;
 }
 
 .pack-card__collage-img {
   flex: 1 1 0;
   min-width: 0;
-  height: 85%;
+  height: 82%;
   object-fit: contain;
-  object-position: bottom center;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  object-position: center;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
 }
 
 
