@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imaginary Scents | Decants de perfumes originales en Perú</title>
+  <meta name="description" content="Decants de perfumes nicho, de diseñador y árabes, 100% originales. Envío a todo el Perú.">
+
+  <link rel="icon" href="assets/logo-icon.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Barra de anuncios: rota/lista 3 mensajes cortos de confianza -->
+  <div class="announcement-bar">
+    <ul class="announcement-bar__list">
+      <li>Envío gratis a Perú con pedidos superiores a S/250</li>
+      <li>Pedidos a Lima se entregan al día siguiente; a provincia se envían los viernes</li>
+      <li>Todos los productos 100% auténticos</li>
+    </ul>
+  </div>
+
+  <!-- Header: logo + menú principal + acceso al carrito -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="#inicio" class="site-header__logo">
+        <img src="assets/logo-icon.png" alt="Imaginary Scents" width="40" height="40">
+        <span>Imaginary Scents</span>
+      </a>
+
+      <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav id="main-nav" class="main-nav">
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#mas-vendidos">Más vendidos</a></li>
+          <li><a href="#packs">Packs</a></li>
+          <li><a href="#recien-llegados">Recién llegados</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <button id="cart-toggle" class="cart-toggle" aria-label="Abrir carrito">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span id="cart-count" class="cart-count">0</span>
+      </button>
+    </div>
+
+    <!-- Buscador global: por nombre, marca o familia olfativa. Siempre visible (header sticky). -->
+    <div class="site-header__search">
+      <div class="site-header__search-wrap">
+        <svg class="site-header__search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="search" id="buscador" placeholder="Buscar por nombre, marca o familia olfativa (ej. amaderada)...">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / banner principal -->
+    <section id="inicio" class="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">Perfumes originales, en el tamaño que quieras</h1>
+        <p class="hero__subtitle">Decants 100% auténticos de casas nicho, diseñador y árabes. Prueba tu próxima fragancia favorita sin pagar el frasco completo.</p>
+        <a href="#catalogo" class="btn-primary">Ver catálogo</a>
+      </div>
+    </section>
+
+    <!-- ¿Por qué adquirir decants de perfume? -->
+    <section id="por-que-decants" class="why-decants">
+      <div class="why-decants__intro">
+        <h2>¿Por qué adquirir decants de perfume?</h2>
+        <p>Un decant es una fracción de un perfume original, envasada tal cual sale del frasco de la marca. Es la forma más inteligente de descubrir fragancias nicho, de diseñador o árabes sin arriesgar el precio de una botella completa.</p>
+      </div>
+
+      <ul class="why-decants__grid">
+        <li class="why-decants__item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 2h6M10 2v6.34a2 2 0 0 1-.4 1.2L4.6 17.2A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.6-3.8l-5-7.66A2 2 0 0 1 14 8.34V2"></path>
+          </svg>
+          <h3>Prueba antes de comprar el frasco</h3>
+          <p>Conoce cómo evoluciona el perfume en tu piel antes de invertir en la botella completa.</p>
+        </li>
+
+        <li class="why-decants__item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+          <h3>100% original y sellado</h3>
+          <p>Todos nuestros decants provienen de frascos originales, nunca de esencias genéricas.</p>
+        </li>
+
+        <li class="why-decants__item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="1" y="7" width="14" height="10" rx="1"></rect>
+            <path d="M15 10h3l4 3v4h-7z"></path>
+            <circle cx="6" cy="19" r="1.5"></circle>
+            <circle cx="17" cy="19" r="1.5"></circle>
+          </svg>
+          <h3>Envío rápido a todo el Perú</h3>
+          <p>Tu pedido para Lima se entrega al día siguiente de la solicitud y para provincia se envían los días viernes.</p>
+        </li>
+
+        <li class="why-decants__item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"></path>
+            <path d="M4 6v12a2 2 0 0 0 2 2h14v-4"></path>
+            <circle cx="18" cy="14" r="1.5"></circle>
+          </svg>
+          <h3>Precios accesibles</h3>
+          <p>Elige el tamaño que se ajuste a tu bolsillo, desde 1ml, sin pagar el frasco completo.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Catálogo de productos, cargado desde data/products.json -->
+    <section id="catalogo" class="catalogo">
+      <div class="catalogo__header">
+        <h2>Catálogo</h2>
+        <div id="filtros-categoria" class="filtros-categoria">
+          <button type="button" class="filtro-btn is-active" data-categoria="todos">Todos</button>
+          <button type="button" class="filtro-btn" data-categoria="nicho">Nicho</button>
+          <button type="button" class="filtro-btn" data-categoria="diseñador">Diseñador</button>
+          <button type="button" class="filtro-btn" data-categoria="arabe">Árabe</button>
+        </div>
+      </div>
+
+      <div id="catalogo-grid" class="catalogo-grid">
+        <!-- Tarjetas de producto generadas dinámicamente por js/main.js -->
+      </div>
+
+      <p id="catalogo-vacio" class="catalogo-vacio" hidden>No encontramos fragancias que coincidan con tu búsqueda.</p>
+    </section>
+
+    <!-- Recién llegados: fragancias con fechaIngreso dentro de los últimos 30 días -->
+    <section id="recien-llegados" class="recien-llegados" hidden>
+      <div class="packs__header">
+        <h2>Recién llegados</h2>
+        <p>Lo último que sumamos al catálogo.</p>
+      </div>
+
+      <div id="recien-llegados-grid" class="catalogo-grid">
+        <!-- Tarjetas generadas dinámicamente por js/main.js -->
+      </div>
+    </section>
+
+    <!-- Packs: sets de descubrimiento por marca -->
+    <section id="packs" class="packs">
+      <div class="packs__header">
+        <h2>Packs</h2>
+        <p>Armá tu propio pack de al menos 3 fragancias de la misma marca y el mismo tamaño, y llevate hasta 10% de descuento.</p>
+      </div>
+
+      <div id="packs-grid" class="packs-grid">
+        <!-- Tarjetas de marca generadas dinámicamente por js/main.js -->
+      </div>
+    </section>
+
+    <!-- Reseñas de clientes -->
+    <section id="resenas" class="resenas">
+      <!-- TODO: testimonios -->
+    </section>
+
+    <!-- Newsletter (solo visual por ahora) -->
+    <section id="newsletter" class="newsletter">
+      <!-- TODO: formulario visual, sin backend -->
+    </section>
+  </main>
+
+  <!-- Footer: redes sociales, políticas, formas de pago -->
+  <footer id="contacto" class="site-footer">
+    <div class="site-footer__grid">
+      <div class="site-footer__col">
+        <a href="#inicio" class="site-footer__logo">
+          <img src="assets/logo-icon.png" alt="Imaginary Scents" width="36" height="36">
+          <span>Imaginary Scents</span>
+        </a>
+        <p class="site-footer__tagline">Decants 100% originales de perfumes nicho, de diseñador y árabes, en el tamaño que quieras.</p>
+
+        <div class="site-footer__social">
+          <a href="https://www.instagram.com/imaginaryscents_/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+              <path d="M16 11.37a4 4 0 1 1-7.914 1.174A4 4 0 0 1 16 11.37Z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="https://www.tiktok.com/@imaginaryscents_?_r=1&_t=ZS-99Z3dY4OCE1" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+            </svg>
+          </a>
+          <a href="https://wa.me/51944311196" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="site-footer__col">
+        <h3>Enlaces</h3>
+        <ul>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#packs">Packs</a></li>
+          <li><a href="#recien-llegados">Recién llegados</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3>Políticas</h3>
+        <ul>
+          <li>Envío gratis a Perú con pedidos superiores a S/250</li>
+          <li>Pedidos a Lima se entregan al día siguiente; a provincia se envían los viernes</li>
+          <li>Todos los productos 100% auténticos</li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3>Formas de pago</h3>
+        <ul class="site-footer__pagos">
+          <li>Yape</li>
+          <li>Plin</li>
+          <li>Tarjeta de crédito o débito</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>&copy; 2026 Imaginary Scents. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Fondo oscuro detrás del panel del carrito -->
+  <div id="cart-backdrop" class="cart-backdrop" hidden></div>
+
+  <!-- Panel lateral del carrito -->
+  <aside id="cart-panel" class="cart-panel" hidden>
+    <div class="cart-panel__header">
+      <h2>Tu carrito</h2>
+      <button id="cart-close" class="cart-close" aria-label="Cerrar carrito">&times;</button>
+    </div>
+    <ul id="cart-items" class="cart-items"></ul>
+    <p id="cart-empty" class="cart-empty" hidden>Tu carrito está vacío.</p>
+    <button id="cart-clear" class="cart-clear" hidden>Vaciar carrito</button>
+    <p class="cart-total">Total: S/ <span id="cart-total">0</span></p>
+    <button id="checkout-whatsapp" class="btn-whatsapp">Finalizar pedido por WhatsApp</button>
+  </aside>
+
+  <!-- Fondo oscuro detrás del panel de notas -->
+  <div id="notas-backdrop" class="cart-backdrop" hidden></div>
+
+  <!-- Panel de notas del perfume (familia olfativa, temporada, descripción) -->
+  <aside id="notas-modal" class="notas-modal" hidden>
+    <button id="notas-close" class="cart-close notas-close" aria-label="Cerrar">&times;</button>
+    <div id="notas-body" class="notas-body"></div>
+  </aside>
+
+  <!-- Fondo oscuro detrás del armador de packs -->
+  <div id="pack-backdrop" class="cart-backdrop" hidden></div>
+
+  <!-- Armador de pack: elige tamaño y fragancias de una marca -->
+  <aside id="pack-modal" class="notas-modal pack-modal" hidden>
+    <button id="pack-close" class="cart-close notas-close" aria-label="Cerrar">&times;</button>
+    <div id="pack-body" class="pack-body"></div>
+  </aside>
+
+  <script src="js/cart.js"></script>
+  <script src="js/whatsapp.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
