@@ -8,6 +8,21 @@
   --color-text: #1c1c1c;
   --color-text-muted: #5c5c5c;
   --color-whatsapp: #25d366;
+  --color-danger: #9c3b3b;
+
+  /* Texto de títulos/precios sobre superficies (distinto de --color-primary,
+     que también se usa como RELLENO de fondo en botones/badges). Igual a
+     --color-primary en modo claro; en modo oscuro cambia a un verde claro
+     para que siga siendo legible sobre fondos oscuros. */
+  --color-heading: var(--color-primary);
+
+  /* Bordes/divisores sutiles: negro tenue en claro, blanco tenue en oscuro. */
+  --color-border: rgba(0, 0, 0, 0.1);
+
+  /* Fondo SIEMPRE claro para las fotos de frascos (PNG transparentes).
+     No cambia con el tema: si el fondo detrás de una foto transparente se
+     oscurece, vuelve a aparecer el problema de "hueco" que ya resolvimos. */
+  --color-photo-stage: #f7f7f7;
 
   --font-heading: "Playfair Display", Georgia, serif;
   --font-body: "Lato", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -15,6 +30,16 @@
   --radius: 10px;
   --spacing: 1rem;
   --header-height: 64px;
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #15191c;
+  --color-surface: #1f2428;
+  --color-text: #ececec;
+  --color-text-muted: #a3a8ab;
+  --color-heading: #8fd6a4;
+  --color-border: rgba(255, 255, 255, 0.14);
+  --color-danger: #e08080;
 }
 
 * {
@@ -74,7 +99,7 @@ a {
 /* Header */
 .site-header {
   background: var(--color-surface);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
   z-index: 20;
@@ -113,7 +138,7 @@ a {
   font-family: var(--font-body);
   font-size: 0.9rem;
   padding: 0.55rem 0.75rem 0.55rem 2.2rem;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-border);
   border-radius: 999px;
   background: var(--color-bg);
   color: var(--color-text);
@@ -135,7 +160,7 @@ a {
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 1.1rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
   flex-shrink: 0;
 }
 
@@ -161,7 +186,7 @@ a {
 .menu-toggle span {
   display: block;
   height: 2px;
-  background: var(--color-primary);
+  background: var(--color-heading);
   border-radius: 2px;
 }
 
@@ -173,7 +198,7 @@ a {
   left: 0;
   right: 0;
   background: var(--color-surface);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid var(--color-border);
   order: 4;
 }
 
@@ -199,13 +224,92 @@ a {
   color: var(--color-accent);
 }
 
+/* Menú "Marcas" */
+.nav-marcas {
+  position: relative;
+}
+
+.nav-marcas__toggle {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.75rem var(--spacing);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.nav-marcas__toggle::after {
+  content: "▾";
+  margin-left: 0.4rem;
+  color: var(--color-accent);
+}
+
+.nav-marcas__toggle:hover {
+  color: var(--color-accent);
+}
+
+.marcas-dropdown {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.1rem;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+
+.marcas-dropdown[hidden] {
+  display: none;
+}
+
+.marcas-dropdown__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.55rem var(--spacing);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.marcas-dropdown__item:hover {
+  background: rgba(185, 156, 56, 0.12);
+  color: var(--color-heading);
+}
+
+@media (min-width: 900px) {
+  .nav-marcas__toggle {
+    padding: 0;
+    width: auto;
+  }
+
+  .marcas-dropdown {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 0;
+    width: 220px;
+    border-radius: var(--radius);
+    border-top: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    z-index: 25;
+  }
+}
+
 .cart-toggle {
   position: relative;
   display: flex;
   align-items: center;
   background: none;
   border: none;
-  color: var(--color-primary);
+  color: var(--color-heading);
   cursor: pointer;
   order: 2;
 }
@@ -223,6 +327,76 @@ a {
   font-size: 0.7rem;
   line-height: 18px;
   text-align: center;
+}
+
+/* Botón modo claro/oscuro */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--color-heading);
+  cursor: pointer;
+  order: 2;
+}
+
+.theme-toggle .icon-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  display: block;
+}
+
+/* Selector de tema (popup de primera visita) */
+.theme-modal {
+  text-align: center;
+}
+
+.theme-modal__titulo {
+  color: var(--color-heading);
+  font-size: 1.3rem;
+  margin: 0 0 0.5rem;
+}
+
+.theme-modal__texto {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0 0 1.25rem;
+}
+
+.theme-modal__opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.theme-opcion {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.theme-opcion:hover {
+  border-color: var(--color-accent);
+}
+
+@media (min-width: 500px) {
+  .theme-modal__opciones {
+    flex-direction: row;
+  }
 }
 
 /* Desktop: menú horizontal siempre visible, sin hamburguesa */
@@ -248,7 +422,8 @@ a {
     padding: 0;
   }
 
-  .cart-toggle {
+  .cart-toggle,
+  .theme-toggle {
     order: 3;
   }
 
@@ -337,7 +512,7 @@ a {
 
 .why-decants__intro h2 {
   font-size: 1.6rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
   margin-bottom: 0.75rem;
 }
 
@@ -370,7 +545,7 @@ a {
 
 .why-decants__item h3 {
   font-size: 1.05rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
   margin-bottom: 0.5rem;
 }
 
@@ -393,7 +568,7 @@ a {
   }
 
   .why-decants__item {
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    border-right: 1px solid var(--color-border);
   }
 
   .why-decants__item:last-child {
@@ -417,7 +592,7 @@ a {
 
 .catalogo__header h2 {
   font-size: 1.6rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
 }
 
 .filtros-categoria {
@@ -428,18 +603,18 @@ a {
 
 .filtro-btn {
   background: none;
-  border: 1px solid rgba(30, 64, 39, 0.25);
+  border: 1px solid var(--color-border);
   border-radius: 999px;
   padding: 0.4rem 1rem;
   font-family: var(--font-body);
   font-size: 0.85rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
 .filtro-btn:hover {
-  background: rgba(30, 64, 39, 0.08);
+  background: rgba(185, 156, 56, 0.12);
 }
 
 .filtro-btn.is-active {
@@ -484,6 +659,7 @@ a {
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   overflow: hidden;
@@ -494,7 +670,7 @@ a {
   width: 100%;
   height: 280px;
   object-fit: contain;
-  background: var(--color-bg);
+  background: var(--color-photo-stage);
   padding: 1rem;
 }
 
@@ -578,7 +754,7 @@ a {
 
 .product-card__nombre {
   font-size: 1.1rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
   margin-top: 0.2rem;
 }
 
@@ -614,16 +790,17 @@ a {
 }
 
 .ver-notas:hover {
-  color: var(--color-primary);
+  color: var(--color-heading);
 }
 
 .product-card__select {
   font-family: var(--font-body);
   font-size: 0.9rem;
   padding: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-border);
   border-radius: 6px;
-  background: #fff;
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .product-card__footer {
@@ -635,7 +812,7 @@ a {
 
 .product-card__precio {
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-heading);
 }
 
 .btn-add-cart {
@@ -669,7 +846,7 @@ a {
 
 .packs__header h2 {
   font-size: 1.6rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
   margin-bottom: 0.5rem;
 }
 
@@ -701,6 +878,7 @@ a {
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   overflow: hidden;
@@ -747,7 +925,7 @@ a {
 }
 
 .pack-card__marca {
-  color: var(--color-primary);
+  color: var(--color-heading);
   font-size: 1.1rem;
 }
 
@@ -776,7 +954,7 @@ a {
 }
 
 .pack-titulo {
-  color: var(--color-primary);
+  color: var(--color-heading);
   font-size: 1.3rem;
   margin: 0 0 0.2rem;
   padding-right: 2rem;
@@ -797,12 +975,12 @@ a {
 .pack-tab {
   flex: 1;
   background: var(--color-bg);
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 0.5rem;
   font-family: var(--font-body);
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-heading);
   cursor: pointer;
 }
 
@@ -826,7 +1004,7 @@ a {
   align-items: center;
   gap: 0.6rem;
   padding: 0.5rem 0.6rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   cursor: pointer;
 }
@@ -852,7 +1030,7 @@ a {
 
 .pack-aviso {
   background: rgba(185, 156, 56, 0.12);
-  color: var(--color-primary);
+  color: var(--color-heading);
   font-size: 0.85rem;
   padding: 0.6rem 0.75rem;
   border-radius: 8px;
@@ -860,7 +1038,7 @@ a {
 }
 
 .pack-resumen {
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid var(--color-border);
   padding-top: 0.75rem;
   margin-bottom: 1rem;
 }
@@ -874,14 +1052,14 @@ a {
 }
 
 .pack-resumen__descuento {
-  color: #9c3b3b;
+  color: var(--color-danger);
 }
 
 .pack-resumen__total {
   font-weight: 700;
   font-size: 1.1rem;
-  color: var(--color-primary);
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--color-heading);
+  border-top: 1px solid var(--color-border);
   margin-top: 0.4rem;
   padding-top: 0.5rem;
 }
@@ -1052,7 +1230,7 @@ a {
 
 .cart-panel__header h2 {
   font-size: 1.3rem;
-  color: var(--color-primary);
+  color: var(--color-heading);
 }
 
 .cart-close {
@@ -1076,13 +1254,13 @@ a {
   grid-template-columns: 1fr auto;
   gap: 0.75rem;
   padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .cart-item__nombre {
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-heading);
   margin: 0;
 }
 
@@ -1107,9 +1285,10 @@ a {
 .qty-btn {
   width: 22px;
   height: 22px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--color-border);
   border-radius: 4px;
-  background: #fff;
+  background: var(--color-surface);
+  color: var(--color-text);
   cursor: pointer;
   line-height: 1;
 }
@@ -1124,7 +1303,7 @@ a {
 .cart-item__precio {
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-heading);
 }
 
 .cart-item__remove {
@@ -1153,12 +1332,12 @@ a {
 }
 
 .cart-clear:hover {
-  color: var(--color-primary);
+  color: var(--color-heading);
 }
 
 .cart-total {
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-heading);
   text-align: right;
 }
 
@@ -1215,7 +1394,7 @@ a {
   width: 100%;
   height: 220px;
   object-fit: contain;
-  background: var(--color-bg);
+  background: var(--color-photo-stage);
   border-radius: var(--radius);
   margin-bottom: 1rem;
 }
@@ -1227,7 +1406,7 @@ a {
 }
 
 .notas-nombre {
-  color: var(--color-primary);
+  color: var(--color-heading);
   font-size: 1.4rem;
   margin: 0.2rem 0 0.75rem;
 }
@@ -1240,8 +1419,8 @@ a {
 }
 
 .notas-etiquetas .etiqueta {
-  background: rgba(30, 64, 39, 0.08);
-  color: var(--color-primary);
+  background: rgba(185, 156, 56, 0.15);
+  color: var(--color-heading);
   font-size: 0.75rem;
   font-weight: 700;
   padding: 0.25rem 0.65rem;
@@ -1258,7 +1437,7 @@ a {
   font-family: var(--font-heading);
   font-style: italic;
   color: var(--color-accent);
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid var(--color-border);
   padding-top: 1rem;
   margin: 0;
 }

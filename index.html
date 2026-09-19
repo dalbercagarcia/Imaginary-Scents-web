@@ -13,6 +13,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Aplica el tema guardado ANTES de pintar la página, para que no haya
+       un parpadeo de modo claro antes de pasar a oscuro. -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('imaginary-scents-theme');
+        if (t === 'dark' || t === 'light') {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 
@@ -43,12 +56,33 @@
         <ul>
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#catalogo">Catálogo</a></li>
+          <li class="nav-marcas">
+            <button type="button" id="marcas-toggle" class="nav-marcas__toggle" aria-expanded="false" aria-controls="marcas-dropdown">Marcas</button>
+            <div id="marcas-dropdown" class="marcas-dropdown" hidden></div>
+          </li>
           <li><a href="#mas-vendidos">Más vendidos</a></li>
           <li><a href="#packs">Packs</a></li>
           <li><a href="#recien-llegados">Recién llegados</a></li>
           <li><a href="https://wa.me/51944311196?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Imaginary%20Scents" target="_blank" rel="noopener">Contacto</a></li>
         </ul>
       </nav>
+
+      <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar a modo oscuro">
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
 
       <button id="cart-toggle" class="cart-toggle" aria-label="Abrir carrito">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -295,8 +329,20 @@
     <div id="pack-body" class="pack-body"></div>
   </aside>
 
+  <!-- Selector de tema: aparece una sola vez, en la primera visita -->
+  <div id="theme-backdrop" class="cart-backdrop" hidden></div>
+  <aside id="theme-modal" class="notas-modal theme-modal" hidden>
+    <h3 class="theme-modal__titulo">¿Cómo preferís ver la página?</h3>
+    <p class="theme-modal__texto">Podés cambiarlo cuando quieras con el ícono de sol/luna en la parte de arriba.</p>
+    <div class="theme-modal__opciones">
+      <button type="button" class="theme-opcion" data-theme="light">☀️ Modo claro</button>
+      <button type="button" class="theme-opcion" data-theme="dark">🌙 Modo oscuro</button>
+    </div>
+  </aside>
+
   <script src="js/cart.js"></script>
   <script src="js/whatsapp.js"></script>
+  <script src="js/theme.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

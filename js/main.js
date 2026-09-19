@@ -227,6 +227,64 @@ function initBuscador() {
   });
 }
 
+// Menú "Marcas": lista todas las marcas del catálogo; al elegir una,
+// reutiliza el buscador global (ya sabe filtrar por marca) para no duplicar
+// lógica de filtrado.
+function renderMarcas() {
+  const contenedor = document.getElementById('marcas-dropdown');
+  const marcas = [...new Set(PRODUCTS.map((p) => p.marca))].sort((a, b) => a.localeCompare(b, 'es'));
+
+  contenedor.innerHTML = marcas
+    .map((marca) => `<button type="button" class="marcas-dropdown__item" data-marca="${marca}">${marca}</button>`)
+    .join('');
+}
+
+function cerrarMarcas() {
+  document.getElementById('marcas-dropdown').hidden = true;
+  document.getElementById('marcas-toggle').setAttribute('aria-expanded', 'false');
+}
+
+function initMarcas() {
+  const toggle = document.getElementById('marcas-toggle');
+  const dropdown = document.getElementById('marcas-dropdown');
+
+  toggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const abierto = !dropdown.hidden;
+    if (abierto) {
+      cerrarMarcas();
+    } else {
+      dropdown.hidden = false;
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  dropdown.addEventListener('click', (event) => {
+    const btn = event.target.closest('.marcas-dropdown__item');
+    if (!btn) return;
+
+    const input = document.getElementById('buscador');
+    const eraVacia = busquedaActual.trim() === '';
+    input.value = btn.dataset.marca;
+    busquedaActual = input.value;
+    aplicarFiltros();
+    cerrarMarcas();
+    mainNav.classList.remove('is-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+
+    if (eraVacia) {
+      document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  // Cierra al hacer clic afuera
+  document.addEventListener('click', (event) => {
+    if (!dropdown.hidden && !event.target.closest('.nav-marcas')) {
+      cerrarMarcas();
+    }
+  });
+}
+
 // Se usa para el catálogo completo y para Recién llegados: ambas grillas
 // pueden mostrar el mismo producto a la vez, así que todo se resuelve
 // relativo a la tarjeta clickeada (nunca por id global).
@@ -269,10 +327,12 @@ async function cargarCatalogo() {
   try {
     const res = await fetch('data/products.json');
     PRODUCTS = await res.json();
+    PRODUCTS.sort((a, b) => a.marca.localeCompare(b.marca, 'es') || a.nombre.localeCompare(b.nombre, 'es'));
     aplicarFiltros();
     renderPacks();
     renderRecienLlegados();
     renderMasVendidos();
+    renderMarcas();
   } catch (err) {
     console.error('No se pudo cargar el catálogo:', err);
     document.getElementById('catalogo-grid').innerHTML =
@@ -459,4 +519,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initGridEventos(document.getElementById('mas-vendidos-grid'));
   initNotas();
   initPacks();
+  initMarcas();
 });
