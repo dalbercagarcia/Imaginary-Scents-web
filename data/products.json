@@ -486,6 +486,7 @@
     "nombre": "Alexandria II",
     "marca": "Xerjoff",
     "categoria": "nicho",
+    "disponible": false,
     "imagen": "assets/xerjoff-alexandria-2.jpg",
     "descripcion": "Canela y palisandro que abren con el calor que piden los días fríos; la lavanda y la manzana equilibran sin restarle peso, la rosa y el lirio del valle sostienen un corazón elegante, y el oud con sándalo y vainilla cierran denso y duradero.",
     "perfil": ["oriental", "floral"],
