@@ -176,11 +176,31 @@
         </div>
       </div>
 
+      <!-- Barra de filtros y orden -->
+      <div class="catalogo-toolbar">
+        <button type="button" id="filtros-toggle" class="filtros-toggle" aria-expanded="false" aria-controls="filtros-panel">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18M6 12h12M10 19h4"></path></svg>
+          Filtrar <span id="filtros-count" class="filtros-count" hidden>0</span>
+        </button>
+        <label class="orden-wrap">
+          <span class="sr-only">Ordenar por</span>
+          <select id="orden-select" class="orden-select" aria-label="Ordenar por">
+            <option value="alfa">Ordenar: A–Z por marca</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+            <option value="nuevos">Recién llegados primero</option>
+          </select>
+        </label>
+        <span id="catalogo-resultados" class="catalogo-resultados" aria-live="polite"></span>
+      </div>
+      <div id="filtros-panel" class="filtros-panel" hidden></div>
+      <div id="filtros-activos" class="filtros-activos"></div>
+
       <div id="catalogo-grid" class="catalogo-grid">
         <!-- Tarjetas de producto generadas dinámicamente por js/main.js -->
       </div>
 
-      <p id="catalogo-vacio" class="catalogo-vacio" hidden>No encontramos fragancias que coincidan con tu búsqueda.</p>
+      <p id="catalogo-vacio" class="catalogo-vacio" hidden>No encontramos fragancias que coincidan con tu búsqueda. <button type="button" id="catalogo-vacio-limpiar" class="filtros-limpiar">Limpiar filtros y búsqueda</button></p>
     </section>
 
     <!-- Más vendidos: fragancias marcadas con masVendido en products.json -->
@@ -307,6 +327,7 @@
     <ul id="cart-items" class="cart-items"></ul>
     <p id="cart-empty" class="cart-empty" hidden>Tu carrito está vacío.</p>
     <button id="cart-clear" class="cart-clear" hidden>Vaciar carrito</button>
+    <div id="cart-sugerencias" class="cart-sugerencias"></div>
     <p class="cart-total">Total: S/ <span id="cart-total">0</span></p>
     <button id="checkout-whatsapp" class="btn-whatsapp">Finalizar pedido por WhatsApp</button>
   </aside>

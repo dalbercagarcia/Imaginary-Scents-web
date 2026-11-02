@@ -53,6 +53,30 @@ function esRecienLlegado(product) {
   return dias >= 0 && dias <= DIAS_RECIEN_LLEGADO;
 }
 
+
+const ICONOS_ESTACION = { Primavera: '🌸', Verano: '☀️', Otoño: '🍂', Invierno: '❄️' };
+const ICONOS_MOMENTO = { 'Día': '🌞', 'Noche': '🌙', 'Día y noche': '🌞🌙' };
+
+// Línea de datos: [Concentración] · [íconos de temporada] [texto] · [ícono de momento] [texto]
+function crearLineaDatos(product) {
+  if (!product.concentracion) return '';
+  const est = product.estaciones || '';
+  const iconosEst = est === '4 estaciones'
+    ? '🌸☀️🍂❄️'
+    : est.split(' – ').map((e) => ICONOS_ESTACION[e] ?? '').join('');
+  const mom = product.momento || '';
+  // Si el texto es largo, el momento pasa a una segunda línea (sin separador colgando)
+  const largo = (product.concentracion.length + est.length) > 36;
+  return `<p class="product-card__datos${largo ? ' product-card__datos--2l' : ''}">
+    <span class="dato-conc">${product.concentracion}</span>
+    <span class="dato-sep dato-sep--conc">·</span>
+    <span class="dato-resto">
+      <span class="dato-txt">${iconosEst} ${est}</span>
+      <span class="dato-momento"><span class="dato-sep">·</span> <span title="${mom}" aria-label="${mom}">${ICONOS_MOMENTO[mom] ?? mom}</span></span>
+    </span>
+  </p>`;
+}
+
 // prefix: distingue ids cuando el mismo producto se repite en más de una
 // grilla a la vez (ej. catálogo completo + Recién llegados), para que no
 // haya ids duplicados en el DOM.
@@ -82,6 +106,8 @@ function crearTarjetaProducto(product, prefix = 'cat') {
       ${agotado ? '<span class="product-card__stock">Sin stock</span>' : ''}
       <h3 class="product-card__nombre">${product.nombre}</h3>
       <p class="product-card__marca">${product.marca}</p>
+      ${product.subtitulo ? `<p class="product-card__subtitulo">${product.subtitulo}</p>` : ''}
+      ${crearLineaDatos(product)}
       ${ratingHtml}
       <button type="button" class="ver-notas" data-product-id="${product.id}">Ver notas</button>
 
@@ -92,7 +118,9 @@ function crearTarjetaProducto(product, prefix = 'cat') {
 
       <div class="product-card__footer">
         <span class="product-card__precio" data-precio-de="${product.id}">${formatPrecio(variantes[0].precio)}</span>
-        <button type="button" class="btn-add-cart" data-product-id="${product.id}" ${agotado ? 'disabled' : ''}>Agregar</button>
+        ${agotado
+          ? `<a class="btn-avisame" href="${waAvisaLink(product)}" target="_blank" rel="noopener" title="Te avisamos por WhatsApp cuando vuelva a estar disponible">Avísame</a>`
+          : `<button type="button" class="btn-add-cart" data-product-id="${product.id}">Agregar</button>`}
       </div>
     </div>
   `;
@@ -144,7 +172,6 @@ function abrirNotas(productId) {
 
   const etiquetas = [
     ...product.perfil.map((clave) => FAMILIA_LABELS[clave] ?? clave),
-    TEMPORADA_LABELS[product.temporada] ?? product.temporada,
     CATEGORIA_LABELS[product.categoria] ?? product.categoria,
   ];
 
@@ -152,12 +179,17 @@ function abrirNotas(productId) {
     <img src="${product.imagen}" alt="${product.nombre} — ${product.marca}" class="notas-img">
     <p class="notas-marca">${product.marca}</p>
     <h3 class="notas-nombre">${product.nombre}</h3>
+    ${product.subtitulo ? `<p class="product-card__subtitulo">${product.subtitulo}</p>` : ''}
+    ${crearLineaDatos(product)}
     <div class="notas-etiquetas">
       ${etiquetas.map((t) => `<span class="etiqueta">${t}</span>`).join('')}
     </div>
     <p class="notas-descripcion">${product.descripcion}</p>
     ${product.frase ? `<p class="notas-frase">${product.frase}</p>` : ''}
+    ${product.disponible === false ? `<a class="btn-avisame btn-avisame--full" href="${waAvisaLink(product)}" target="_blank" rel="noopener">🔔 Avísame cuando llegue</a>` : ''}
+    ${renderSugerenciasHtml(sugerenciasPara([product]), 'notas')}
   `;
+  document.getElementById('notas-modal').scrollTop = 0;
 
   document.getElementById('notas-modal').hidden = false;
   document.getElementById('notas-backdrop').hidden = false;
@@ -193,7 +225,11 @@ function aplicarFiltros() {
     lista = lista.filter((p) => coincideBusqueda(p, query));
   }
 
+  lista = lista.filter(pasaFiltrosAvanzados);
+  lista = ordenarLista(lista);
+
   renderCatalogo(lista);
+  actualizarBarraFiltros(lista.length);
 }
 
 function initFiltros() {
@@ -323,6 +359,283 @@ function initGridEventos(grid) {
   });
 }
 
+
+// ---------------------------------------------------------------
+// Filtros avanzados, orden, "Avísame" y sugerencias
+// ---------------------------------------------------------------
+const ESTACIONES = ['Primavera', 'Verano', 'Otoño', 'Invierno'];
+const MOMENTOS = ['Día', 'Noche'];
+const CONC_GRUPOS = {
+  'EDT / Cologne': ['EDT', 'EDT Intense', 'Cologne'],
+  'EDP': ['EDP'],
+  'Parfum / Extrait': ['Parfum', 'Extrait de Parfum', 'Elixir', 'Absolu'],
+};
+
+const filtros = {
+  perfil: new Set(),
+  estacion: new Set(),
+  momento: new Set(),
+  conc: new Set(),
+  soloStock: false,
+};
+let ordenActual = 'alfa';
+
+function estacionesDe(p) {
+  if (p.estaciones === '4 estaciones') return [...ESTACIONES];
+  return (p.estaciones || '').split(' – ').filter(Boolean);
+}
+
+function momentosDe(p) {
+  if (p.momento === 'Día y noche') return [...MOMENTOS];
+  return p.momento ? [p.momento] : [];
+}
+
+function pasaFiltrosAvanzados(p) {
+  if (filtros.soloStock && p.disponible === false) return false;
+  if (filtros.perfil.size && !p.perfil.some((x) => filtros.perfil.has(x))) return false;
+  if (filtros.estacion.size && !estacionesDe(p).some((x) => filtros.estacion.has(x))) return false;
+  if (filtros.momento.size && !momentosDe(p).some((x) => filtros.momento.has(x))) return false;
+  if (filtros.conc.size) {
+    const ok = [...filtros.conc].some((g) => (CONC_GRUPOS[g] || []).includes(p.concentracion));
+    if (!ok) return false;
+  }
+  return true;
+}
+
+// Precio de referencia para ordenar: la variante de 5ml (o la más cercana)
+function precioRef(p) {
+  const v = p.variantes.find((x) => x.ml === 5) || p.variantes.find((x) => x.ml === 3) ||
+            p.variantes.find((x) => x.ml === 10) || p.variantes[0];
+  return v.precio;
+}
+
+function ordenarLista(lista) {
+  const copia = [...lista];
+  if (ordenActual === 'precio-asc') copia.sort((a, b) => precioRef(a) - precioRef(b) || a.nombre.localeCompare(b.nombre, 'es'));
+  if (ordenActual === 'precio-desc') copia.sort((a, b) => precioRef(b) - precioRef(a) || a.nombre.localeCompare(b.nombre, 'es'));
+  if (ordenActual === 'nuevos') {
+    copia.sort((a, b) => (b.fechaIngreso || '').localeCompare(a.fechaIngreso || '') || a.marca.localeCompare(b.marca, 'es'));
+  }
+  return copia;
+}
+
+function totalFiltrosActivos() {
+  return filtros.perfil.size + filtros.estacion.size + filtros.momento.size + filtros.conc.size + (filtros.soloStock ? 1 : 0);
+}
+
+function chipFiltro(grupo, valor, etiqueta) {
+  const activo = grupo === 'soloStock' ? filtros.soloStock : filtros[grupo].has(valor);
+  return `<button type="button" class="filtro-btn filtro-chip ${activo ? 'is-active' : ''}" data-grupo="${grupo}" data-valor="${valor}" aria-pressed="${activo}">${etiqueta}</button>`;
+}
+
+function renderPanelFiltros() {
+  const panel = document.getElementById('filtros-panel');
+  const grupo = (titulo, chips) => `<div class="filtros-grupo"><p class="filtros-grupo__titulo">${titulo}</p><div class="filtros-grupo__chips">${chips}</div></div>`;
+
+  panel.innerHTML = `
+    ${grupo('Perfil olfativo', Object.entries(FAMILIA_LABELS).map(([k, l]) => chipFiltro('perfil', k, l)).join(''))}
+    ${grupo('Temporada', ESTACIONES.map((e) => chipFiltro('estacion', e, `${ICONOS_ESTACION[e]} ${e}`)).join(''))}
+    ${grupo('Momento', MOMENTOS.map((m) => chipFiltro('momento', m, `${ICONOS_MOMENTO[m]} ${m}`)).join(''))}
+    ${grupo('Concentración', Object.keys(CONC_GRUPOS).map((g) => chipFiltro('conc', g, g)).join(''))}
+    ${grupo('Disponibilidad', chipFiltro('soloStock', 'si', 'Solo con stock'))}
+    <div class="filtros-acciones">
+      <button type="button" class="filtros-limpiar" id="filtros-limpiar">Limpiar filtros</button>
+      <button type="button" class="btn-primary filtros-ver" id="filtros-ver">Ver resultados</button>
+    </div>
+  `;
+}
+
+function actualizarBarraFiltros(total) {
+  const n = totalFiltrosActivos();
+  const badge = document.getElementById('filtros-count');
+  badge.textContent = n;
+  badge.hidden = n === 0;
+  document.getElementById('catalogo-resultados').textContent = `${total} fragancia${total === 1 ? '' : 's'}`;
+  const ver = document.getElementById('filtros-ver');
+  if (ver) ver.textContent = `Ver ${total} resultado${total === 1 ? '' : 's'}`;
+
+  // Chips activos (se pueden quitar de a uno)
+  const activos = [];
+  filtros.perfil.forEach((v) => activos.push(['perfil', v, FAMILIA_LABELS[v]]));
+  filtros.estacion.forEach((v) => activos.push(['estacion', v, v]));
+  filtros.momento.forEach((v) => activos.push(['momento', v, v]));
+  filtros.conc.forEach((v) => activos.push(['conc', v, v]));
+  if (filtros.soloStock) activos.push(['soloStock', 'si', 'Solo con stock']);
+  document.getElementById('filtros-activos').innerHTML = activos
+    .map(([g, v, l]) => `<button type="button" class="filtro-activo" data-grupo="${g}" data-valor="${v}" aria-label="Quitar filtro ${l}">${l} <span aria-hidden="true">&times;</span></button>`)
+    .join('');
+
+  // Refleja el estado en los chips del panel
+  document.querySelectorAll('#filtros-panel .filtro-chip').forEach((b) => {
+    const g = b.dataset.grupo;
+    const on = g === 'soloStock' ? filtros.soloStock : filtros[g].has(b.dataset.valor);
+    b.classList.toggle('is-active', on);
+    b.setAttribute('aria-pressed', String(on));
+  });
+}
+
+function alternarFiltro(grupo, valor) {
+  if (grupo === 'soloStock') filtros.soloStock = !filtros.soloStock;
+  else if (filtros[grupo].has(valor)) filtros[grupo].delete(valor);
+  else filtros[grupo].add(valor);
+  aplicarFiltros();
+}
+
+function limpiarFiltros() {
+  Object.values(filtros).forEach((v) => v instanceof Set && v.clear());
+  filtros.soloStock = false;
+  aplicarFiltros();
+}
+
+function initFiltrosAvanzados() {
+  const toggle = document.getElementById('filtros-toggle');
+  const panel = document.getElementById('filtros-panel');
+  renderPanelFiltros();
+
+  toggle.addEventListener('click', () => {
+    panel.hidden = !panel.hidden;
+    toggle.setAttribute('aria-expanded', String(!panel.hidden));
+  });
+
+  panel.addEventListener('click', (event) => {
+    const chip = event.target.closest('.filtro-chip');
+    if (chip) return alternarFiltro(chip.dataset.grupo, chip.dataset.valor);
+    if (event.target.closest('#filtros-limpiar')) return limpiarFiltros();
+    if (event.target.closest('#filtros-ver')) {
+      panel.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+      document.getElementById('catalogo-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  document.getElementById('filtros-activos').addEventListener('click', (event) => {
+    const b = event.target.closest('.filtro-activo');
+    if (b) alternarFiltro(b.dataset.grupo, b.dataset.valor);
+  });
+
+  document.getElementById('orden-select').addEventListener('change', (event) => {
+    ordenActual = event.target.value;
+    aplicarFiltros();
+  });
+
+  document.getElementById('catalogo-vacio-limpiar').addEventListener('click', () => {
+    limpiarFiltros();
+    document.getElementById('buscador').value = '';
+    busquedaActual = '';
+    aplicarFiltros();
+  });
+}
+
+// "Avísame cuando llegue": abre WhatsApp con el mensaje armado
+function waAvisaLink(product) {
+  const msg = `Hola! Me interesa ${product.nombre} (${product.marca}) y vi que no tiene stock. ¿Me avisan cuando vuelva a estar disponible?`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+
+// Sugerencias: "También te podría interesar"
+function puntuarSimilitud(base, cand) {
+  let s = 0;
+  if (cand.categoria === base.categoria) s += 1;
+  if (cand.perfil[0] === base.perfil[0]) s += 3;
+  s += cand.perfil.filter((x) => base.perfil.includes(x)).length * 2;
+  const estC = estacionesDe(cand);
+  if (estacionesDe(base).filter((x) => estC.includes(x)).length >= 2) s += 1;
+  const momC = momentosDe(cand);
+  if (momentosDe(base).some((x) => momC.includes(x))) s += 1;
+  const ratio = precioRef(cand) / precioRef(base);
+  if (ratio >= 0.6 && ratio <= 1.6) s += 1;
+  return s;
+}
+
+function razonSimilitud(bases, cand) {
+  const compartidas = new Set();
+  bases.forEach((b) => cand.perfil.filter((x) => b.perfil.includes(x)).forEach((x) => compartidas.add(x)));
+  if (compartidas.size) return [...compartidas].map((x) => FAMILIA_LABELS[x] ?? x).slice(0, 2).join(' · ');
+  return CATEGORIA_LABELS[cand.categoria] ?? '';
+}
+
+// bases: perfumes que el cliente está viendo o tiene en el carrito
+function sugerenciasPara(bases, n = 3) {
+  const excluir = new Set(bases.map((b) => b.id));
+  const candidatos = PRODUCTS
+    .filter((p) => !excluir.has(p.id) && p.disponible !== false)
+    .map((p) => ({ p, s: bases.reduce((t, b) => t + puntuarSimilitud(b, p), 0) }))
+    .filter((x) => x.s > 0)
+    .sort((a, b) => b.s - a.s || (b.p.masVendido ? 1 : 0) - (a.p.masVendido ? 1 : 0) || a.p.nombre.localeCompare(b.p.nombre, 'es'));
+
+  const elegidos = [];
+  const marcas = new Set();
+  candidatos.forEach((c) => { if (elegidos.length < n && !marcas.has(c.p.marca)) { elegidos.push(c.p); marcas.add(c.p.marca); } });
+  candidatos.forEach((c) => { if (elegidos.length < n && !elegidos.includes(c.p)) elegidos.push(c.p); });
+  return elegidos.map((p) => ({ product: p, razon: razonSimilitud(bases, p) }));
+}
+
+function variantePorDefecto(product, mlPreferido) {
+  // Tamaño pedido; si no existe, el más cercano a ese (o a 5ml)
+  const objetivo = mlPreferido || 5;
+  return [...product.variantes].sort((a, b) => Math.abs(a.ml - objetivo) - Math.abs(b.ml - objetivo) || b.ml - a.ml)[0];
+}
+
+function renderSugerenciasHtml(lista, contexto, mlPreferido) {
+  if (!lista.length) return '';
+  const tarjetas = lista.map(({ product, razon }) => {
+    const v = variantePorDefecto(product, mlPreferido);
+    return `
+      <article class="sugerencia">
+        <img src="${product.imagen}" alt="${product.nombre} — ${product.marca}" class="sugerencia__img" loading="lazy">
+        <div class="sugerencia__info">
+          <p class="sugerencia__marca">${product.marca}</p>
+          <p class="sugerencia__nombre">${product.nombre}</p>
+          ${razon ? `<p class="sugerencia__razon">Similar: ${razon}</p>` : ''}
+          <p class="sugerencia__precio">${v.ml}ml — ${formatPrecio(v.precio)}</p>
+          <div class="sugerencia__acciones">
+            <button type="button" class="sugerencia__btn" data-sug="ver" data-product-id="${product.id}">Ver</button>
+            <button type="button" class="sugerencia__btn sugerencia__btn--add" data-sug="add" data-product-id="${product.id}" data-ml="${v.ml}">+ Agregar</button>
+          </div>
+        </div>
+      </article>`;
+  }).join('');
+  return `<section class="sugerencias sugerencias--${contexto}">
+    <h4 class="sugerencias__titulo">También te podría interesar</h4>
+    <div class="sugerencias__lista">${tarjetas}</div>
+  </section>`;
+}
+
+// Carrito: sugerencias según lo que el cliente va a comprar
+function renderSugerenciasCarrito(cart) {
+  const cont = document.getElementById('cart-sugerencias');
+  if (!cont) return;
+  if (!PRODUCTS.length || !cart.length) { cont.innerHTML = ''; return; }
+
+  const ids = new Set();
+  let ml;
+  cart.forEach((l) => {
+    if (l.tipo === 'pack') l.items.forEach((i) => ids.add(i.id));
+    else ids.add(l.productId);
+    if (!ml) ml = l.ml;
+  });
+  const bases = PRODUCTS.filter((p) => ids.has(p.id));
+  if (!bases.length) { cont.innerHTML = ''; return; }
+  cont.innerHTML = renderSugerenciasHtml(sugerenciasPara(bases), 'carrito', ml);
+}
+
+function initSugerencias() {
+  document.addEventListener('click', (event) => {
+    const btn = event.target.closest('[data-sug]');
+    if (!btn) return;
+    const product = PRODUCTS.find((p) => p.id === btn.dataset.productId);
+    if (!product) return;
+    if (btn.dataset.sug === 'ver') {
+      abrirNotas(product.id);
+    } else {
+      const v = product.variantes.find((x) => String(x.ml) === btn.dataset.ml) || product.variantes[0];
+      addToCart(product, v);
+      cerrarNotas();
+      openCart();
+    }
+  });
+}
+
 async function cargarCatalogo() {
   try {
     const res = await fetch('data/products.json');
@@ -333,6 +646,7 @@ async function cargarCatalogo() {
     renderRecienLlegados();
     renderMasVendidos();
     renderMarcas();
+    renderSugerenciasCarrito(getCart());
   } catch (err) {
     console.error('No se pudo cargar el catálogo:', err);
     document.getElementById('catalogo-grid').innerHTML =
@@ -520,4 +834,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initNotas();
   initPacks();
   initMarcas();
+  initFiltrosAvanzados();
+  initSugerencias();
 });

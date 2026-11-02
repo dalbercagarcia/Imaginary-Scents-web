@@ -168,6 +168,7 @@ function renderCart() {
   totalEl.textContent = getCartTotal(cart).toFixed(2);
   countEl.textContent = getCartCount(cart);
   document.getElementById('checkout-whatsapp').disabled = cart.length === 0;
+  if (typeof renderSugerenciasCarrito === 'function') renderSugerenciasCarrito(cart);
 }
 
 function openCart() {
