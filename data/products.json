@@ -1158,5 +1158,165 @@
       { "ml": 5, "precio": 25 },
       { "ml": 10, "precio": 36 }
     ]
+  },
+  {
+    "id": "botanicae-highlands",
+    "nombre": "Highlands",
+    "marca": "Botanicae",
+    "categoria": "nicho",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/botanicae-highlands.jpg",
+    "descripcion": "Enebro y té Earl Grey abren verdes y aromáticos; nardos y cedro suavizan el corazón, y el heno, el musgo de roble, el cuero y el almizcle dejan un fondo de campo escocés, terroso y envolvente.",
+    "perfil": ["amaderada", "fougere"],
+    "temporada": "todo",
+    "frase": "Para el que ama los aromas verdes y naturales, con un toque de cuero y heno, y quiere algo distinto y elegante 🌿🧳",
+    "variantes": [
+      { "ml": 5, "precio": 35 },
+      { "ml": 10, "precio": 65 }
+    ]
+  },
+  {
+    "id": "kalotinis-granita-neroli",
+    "nombre": "Granita Neroli",
+    "marca": "Theodoros Kalotinis",
+    "categoria": "nicho",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/kalotinis-granita-neroli.jpg",
+    "descripcion": "Hielo que abre helado y refrescante; neroli y limoncello en el corazón como una granita mediterránea, con un fondo de azúcar suave y luminoso.",
+    "perfil": ["citrica", "floral"],
+    "temporada": "calor",
+    "frase": "Para quien busca frescura cítrica con un toque dulce, ideal para días de calor y para sentirse ligero ❄️🍋",
+    "variantes": [
+      { "ml": 5, "precio": 39 },
+      { "ml": 10, "precio": 69 }
+    ]
+  },
+  {
+    "id": "issey-le-sel-dissey",
+    "nombre": "Le Sel d'Issey",
+    "marca": "Issey Miyake",
+    "categoria": "diseñador",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/issey-le-sel-dissey.jpg",
+    "descripcion": "Sal de mar y jengibre en la salida, algas marinas y vetiver en el corazón, y cedro con musgo de roble al fondo: una brisa marina mineral y limpia.",
+    "perfil": ["fougere", "citrica"],
+    "temporada": "calor",
+    "frase": "Para el que ama el mar y lo acuático, fresco, limpio y fácil de usar todo el día 🌊🧂",
+    "variantes": [
+      { "ml": 5, "precio": 29 },
+      { "ml": 10, "precio": 55 }
+    ]
+  },
+  {
+    "id": "mfk-gentle-fluidity-silver",
+    "nombre": "Gentle Fluidity Silver",
+    "marca": "MFK",
+    "categoria": "nicho",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/mfk-gentle-fluidity-silver.jpg",
+    "descripcion": "Bayas de enebro, nuez moscada, bergamota y piña abren brillantes; el cilantro especia el corazón y el almizcle, las maderas, el cedro, el ámbar y la vainilla cierran suaves y envolventes.",
+    "perfil": ["amaderada", "oriental"],
+    "temporada": "todo",
+    "frase": "Para quien quiere un perfume de lujo, unisex y elegante, fresco al inicio y cálido al secar 🥂✨",
+    "variantes": [
+      { "ml": 5, "precio": 115 },
+      { "ml": 10, "precio": 219 }
+    ]
+  },
+  {
+    "id": "diptyque-tam-dao",
+    "nombre": "Tam Dao Eau de Parfum",
+    "marca": "Diptyque",
+    "categoria": "nicho",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/diptyque-tam-dao.jpg",
+    "descripcion": "Sándalo y cedro como protagonistas, con amberwood, almizcle y vainilla; el cilantro, la lima y el jengibre aportan un toque especiado y chispeante a un bosque cremoso.",
+    "perfil": ["amaderada"],
+    "temporada": "frio",
+    "frase": "Para el amante de las maderas cálidas y cremosas, perfecto para tardes y noches frescas 🪵🕯️",
+    "variantes": [
+      { "ml": 5, "precio": 95 },
+      { "ml": 10, "precio": 179 }
+    ]
+  },
+  {
+    "id": "byredo-bal-dafrique-absolu",
+    "nombre": "Bal d'Afrique Absolu",
+    "marca": "Byredo",
+    "categoria": "nicho",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/byredo-bal-dafrique-absolu.jpg",
+    "descripcion": "Grosellas negras, bergamota y limón abren vibrantes; praliné, almizcle y violeta endulzan el corazón, y el ámbar negro, el cedro y el vetiver cierran profundos y cálidos.",
+    "perfil": ["oriental", "gourmand"],
+    "temporada": "todo",
+    "frase": "Para quien busca un perfume de nicho cálido y goloso, con carácter y elegancia, fácil de usar todo el año 🍫🖤",
+    "variantes": [
+      { "ml": 5, "precio": 115 },
+      { "ml": 10, "precio": 219 }
+    ]
+  },
+  {
+    "id": "barrois-ganymede",
+    "nombre": "Ganymede",
+    "marca": "Marc-Antoine Barrois",
+    "categoria": "nicho",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/barrois-ganymede.jpg",
+    "descripcion": "Azafrán y mandarina italiana abren luminosos; osmanto, siempreviva y violeta suavizan el corazón, y las notas minerales, la gamuza, el akigalawood, el almizcle y el pachulí dejan una estela única.",
+    "perfil": ["amaderada", "oriental"],
+    "temporada": "todo",
+    "frase": "Para el que quiere destacar con un aroma sofisticado, mineral y de gamuza que nadie más lleva 🌟🧥",
+    "variantes": [
+      { "ml": 5, "precio": 79 },
+      { "ml": 10, "precio": 149 }
+    ]
+  },
+  {
+    "id": "profumum-acqua-di-sale",
+    "nombre": "Acqua di Sale",
+    "marca": "Profumum Roma",
+    "categoria": "nicho",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/profumum-acqua-di-sale.jpg",
+    "descripcion": "Sal, algas marinas, mirto y cedro de Virginia: una brisa de mar mediterránea, mineral y muy limpia.",
+    "perfil": ["fougere", "amaderada"],
+    "temporada": "calor",
+    "frase": "Para quien ama el mar y lo salino, fresco y natural, ideal para el verano y el día a día 🌊🧂",
+    "variantes": [
+      { "ml": 5, "precio": 75 },
+      { "ml": 10, "precio": 145 }
+    ]
+  },
+  {
+    "id": "swiss-arabian-opulence-of-dubai",
+    "nombre": "Opulence of Dubai",
+    "marca": "Swiss Arabian",
+    "categoria": "arabe",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/swiss-arabian-opulence-of-dubai.jpg",
+    "descripcion": "Pimienta rosa y jengibre abren especiados; incienso de olíbano, papiro y sándalo arman el corazón, y el cedro del Atlas, el oud, el ámbar y el musgo cierran intensos y lujosos.",
+    "perfil": ["oriental", "amaderada"],
+    "temporada": "frio",
+    "frase": "Para el que ama los aromas árabes con incienso y oud, intensos y con presencia, para noches y clima fresco 🕌✨",
+    "variantes": [
+      { "ml": 5, "precio": 35 },
+      { "ml": 10, "precio": 65 }
+    ]
+  },
+  {
+    "id": "bentley-for-men-absolute",
+    "nombre": "For Men Absolute",
+    "marca": "Bentley",
+    "categoria": "diseñador",
+    "fechaIngreso": "2026-11-02",
+    "imagen": "assets/bentley-for-men-absolute.jpg",
+    "descripcion": "Jengibre, elemí y bergamota de Calabria abren especiados; cardamomo, rosa de Damasco, pimienta rosa y chocolate dan un corazón rico, y la vainilla, el incienso, el ámbar y el café tostado cierran cálidos.",
+    "perfil": ["oriental", "gourmand"],
+    "temporada": "frio",
+    "frase": "Para el hombre que quiere un aroma cálido, especiado y envolvente a muy buen precio, ideal para el frío y la noche ☕🍫",
+    "variantes": [
+      { "ml": 5, "precio": 15 },
+      { "ml": 10, "precio": 25 }
+    ]
   }
 ]
