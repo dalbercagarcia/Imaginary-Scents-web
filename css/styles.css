@@ -1545,3 +1545,55 @@ a {
 /* Carrito: sugerencias justo debajo de los productos; el total queda abajo */
 .cart-panel .cart-items { flex: 0 0 auto; }
 .cart-panel .cart-total { margin-top: auto; }
+
+
+/* ================= Test: Encuentra tu perfume ================= */
+.quiz { padding: 2.5rem var(--spacing) 1rem; max-width: 900px; margin: 0 auto; scroll-margin-top: 130px; }
+.quiz__header { text-align: center; margin-bottom: 1.25rem; }
+.quiz__header h2 { margin: 0 0 0.4rem; }
+.quiz__header p { margin: 0; color: var(--color-text-muted); }
+.quiz-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.25rem; box-shadow: 0 4px 18px rgba(0,0,0,0.05); }
+.quiz-progreso { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 1rem; }
+.quiz-punto { width: 28px; height: 6px; border-radius: 999px; background: var(--color-border); }
+.quiz-punto.is-on { background: var(--color-accent); }
+.quiz-progreso__txt { margin-left: auto; font-size: 0.8rem; color: var(--color-text-muted); }
+.quiz-pregunta { margin: 0 0 0.25rem; font-family: var(--font-heading); font-size: 1.35rem; color: var(--color-heading); }
+.quiz-ayuda { margin: 0 0 1rem; font-size: 0.9rem; color: var(--color-text-muted); }
+.quiz-opciones { display: grid; grid-template-columns: 1fr; gap: 0.6rem; }
+@media (min-width: 600px) { .quiz-opciones { grid-template-columns: repeat(2, 1fr); } }
+.quiz-opcion { display: flex; align-items: center; gap: 0.75rem; text-align: left; background: var(--color-bg); border: 2px solid transparent; border-radius: var(--radius); padding: 0.8rem 0.9rem; cursor: pointer; font-family: var(--font-body); color: var(--color-text); }
+.quiz-opcion:hover { border-color: var(--color-accent); }
+.quiz-opcion.is-active { border-color: var(--color-primary); background: rgba(185, 156, 56, 0.12); }
+.quiz-opcion__icono { font-size: 1.5rem; flex: none; }
+.quiz-opcion__texto { display: flex; flex-direction: column; line-height: 1.25; }
+.quiz-opcion__texto strong { font-size: 0.95rem; color: var(--color-heading); }
+.quiz-opcion__texto small { font-size: 0.78rem; color: var(--color-text-muted); }
+.quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+.quiz-atras { background: none; border: none; color: var(--color-heading); font-weight: 700; cursor: pointer; font-family: var(--font-body); font-size: 0.9rem; padding: 0.4rem 0; }
+.quiz-siguiente { border: none; cursor: pointer; font-family: var(--font-body); }
+.quiz-siguiente:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.quiz-res-lista { display: grid; gap: 0.9rem; margin-top: 0.5rem; }
+.quiz-res { position: relative; display: flex; gap: 0.9rem; align-items: center; background: var(--color-bg); border: 2px solid transparent; border-radius: var(--radius); padding: 2rem 0.9rem 0.9rem; }
+.quiz-res--top { border-color: var(--color-accent); background: rgba(185, 156, 56, 0.10); }
+.quiz-res__rank { position: absolute; top: 0.55rem; left: 0.9rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-accent); }
+.quiz-res__img { width: 84px; height: 112px; object-fit: contain; background: var(--color-photo-stage); border-radius: 8px; flex: none; }
+.quiz-res__info { min-width: 0; flex: 1; }
+.quiz-res__info p, .quiz-res__info h4 { margin: 0; }
+.quiz-res__marca { font-size: 0.78rem; color: var(--color-text-muted); }
+.quiz-res__nombre { font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-heading); }
+.quiz-res__razones { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.35rem 0 !important; }
+.quiz-res__razones span { background: rgba(185, 156, 56, 0.18); color: var(--color-heading); font-size: 0.72rem; font-weight: 700; border-radius: 999px; padding: 0.15rem 0.55rem; }
+.quiz-res__precio { font-size: 0.85rem; font-weight: 700; }
+.quiz-res__acciones { display: flex; gap: 0.4rem; margin-top: 0.5rem; }
+@media (min-width: 700px) { .quiz-res { padding-left: 1.1rem; } .quiz-res__img { width: 100px; height: 134px; } }
+.quiz-fin { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; margin-top: 1.25rem; }
+.quiz-wa { display: inline-block; text-align: center; text-decoration: none; padding: 0.8rem 1.4rem; border-radius: var(--radius); }
+
+/* Test: ajustes de la línea de datos en resultados */
+.quiz-res-lista { grid-template-columns: minmax(0, 1fr); }
+.quiz-res { min-width: 0; box-sizing: border-box; }
+.quiz-res .product-card__datos { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.5rem; margin: 0.3rem 0 0; }
+.quiz-res .dato-sep { display: none; }
+.quiz-res .dato-resto { display: inline-flex; flex-wrap: wrap; gap: 0.2rem 0.4rem; flex-basis: auto; }
+.quiz-res .dato-txt { white-space: normal; }
