@@ -56,6 +56,7 @@
         <ul>
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#test">Tu perfume ideal</a></li>
           <li class="nav-marcas">
             <button type="button" id="marcas-toggle" class="nav-marcas__toggle" aria-expanded="false" aria-controls="marcas-dropdown">Marcas</button>
             <div id="marcas-dropdown" class="marcas-dropdown" hidden></div>
@@ -162,6 +163,15 @@
           <p>Elige el tamaño que se ajuste a tu bolsillo, desde 1ml, sin pagar el frasco completo.</p>
         </li>
       </ul>
+    </section>
+
+    <!-- Test: Encuentra tu perfume (4 preguntas → Top 3) -->
+    <section id="test" class="quiz">
+      <div class="quiz__header">
+        <h2>Encuentra tu perfume ideal</h2>
+        <p>Responde 4 preguntas rápidas y te recomendamos 3 fragancias para ti.</p>
+      </div>
+      <div id="quiz-app" class="quiz__app"></div>
     </section>
 
     <!-- Catálogo de productos, cargado desde data/products.json -->
@@ -365,5 +375,6 @@
   <script src="js/whatsapp.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/quiz.js"></script>
 </body>
 </html>
