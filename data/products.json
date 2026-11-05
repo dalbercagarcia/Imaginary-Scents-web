@@ -15,11 +15,11 @@
     "variantes": [
       {
         "ml": 5,
-        "precio": 30
+        "precio": 45
       },
       {
         "ml": 10,
-        "precio": 50
+        "precio": 70
       }
     ],
     "concentracion": "EDT",
