@@ -2247,6 +2247,34 @@
     "momento": "Día"
   },
   {
+    "id": "issey-le-sel-dissey-parfum",
+    "nombre": "Le Sel d'Issey Parfum",
+    "marca": "Issey Miyake",
+    "categoria": "diseñador",
+    "fechaIngreso": "2026-11-09",
+    "imagen": "assets/issey-le-sel-dissey-parfum.png",
+    "descripcion": "Sal y azafrán abren con un toque mineral y especiado; algas marinas y notas amaderadas forman un corazón de brisa salada, y el ámbar con musgo de roble cierra cálido y profundo: el mar de Le Sel d'Issey en versión Parfum, más intensa y envolvente.",
+    "perfil": [
+      "fougere",
+      "amaderada"
+    ],
+    "temporada": "calor",
+    "frase": "Para el que ama el mar pero quiere más presencia: salado, cálido y elegante, de día o de noche 🌊🧂",
+    "variantes": [
+      {
+        "ml": 5,
+        "precio": 39
+      },
+      {
+        "ml": 10,
+        "precio": 69
+      }
+    ],
+    "concentracion": "Parfum",
+    "estaciones": "Primavera – Verano – Otoño",
+    "momento": "Día y noche"
+  },
+  {
     "id": "mfk-gentle-fluidity-silver",
     "nombre": "Gentle Fluidity Silver",
     "marca": "MFK",
