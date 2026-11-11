@@ -2468,5 +2468,32 @@
     "concentracion": "EDP",
     "estaciones": "Otoño – Invierno",
     "momento": "Día y noche"
+  },
+  {
+    "id": "burberry-her",
+    "nombre": "Burberry Her",
+    "marca": "Burberry",
+    "categoria": "diseñador",
+    "imagen": "assets/burberry-her.png",
+    "descripcion": "Una explosión de frutos rojos —fresa, frambuesa, zarzamora y cereza ácida— con mandarina y limón en la salida; violeta y jazmín le dan un corazón floral suave, y la vainilla, el ámbar, el almizcle y el pachulí lo cierran cremoso, cálido y adictivo.",
+    "perfil": [
+      "gourmand",
+      "floral"
+    ],
+    "temporada": "calor",
+    "frase": "Para quien quiere dulzura con carácter: frutal, floral y envolvente, ideal para el día a día 🍓🌸",
+    "variantes": [
+      {
+        "ml": 5,
+        "precio": 29
+      },
+      {
+        "ml": 10,
+        "precio": 55
+      }
+    ],
+    "concentracion": "EDP",
+    "estaciones": "Primavera – Verano",
+    "momento": "Día"
   }
 ]
