@@ -1597,3 +1597,15 @@ a {
 .quiz-res .dato-sep { display: none; }
 .quiz-res .dato-resto { display: inline-flex; flex-wrap: wrap; gap: 0.2rem 0.4rem; flex-basis: auto; }
 .quiz-res .dato-txt { white-space: normal; }
+
+/* ================= Buscador: borrar todo + sugerencias ================= */
+.site-header__search input { padding-right: 2.4rem; }
+.site-header__search input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; display: none; }
+.buscador-limpiar { position: absolute; right: 0.35rem; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border: none; border-radius: 50%; background: var(--color-border); color: var(--color-text); font-size: 1.2rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+.buscador-limpiar[hidden], .buscador-sugerencias[hidden] { display: none; }
+.buscador-sugerencias { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 60; margin: 0; padding: 0.3rem; list-style: none; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 14px; box-shadow: 0 10px 28px rgba(0,0,0,0.16); max-height: 60vh; overflow-y: auto; }
+.buscador-sug { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; padding: 0.6rem 0.75rem; border-radius: 10px; cursor: pointer; font-size: 0.92rem; color: var(--color-text); }
+.buscador-sug:hover, .buscador-sug.is-active { background: rgba(185, 156, 56, 0.16); }
+.buscador-sug mark { background: none; color: var(--color-heading); font-weight: 700; }
+.buscador-sug__extra { flex: none; font-size: 0.75rem; color: var(--color-text-muted); }
+.buscador-sug--marca .buscador-sug__extra { color: var(--color-accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
